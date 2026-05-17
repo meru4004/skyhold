@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #ffffff;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
