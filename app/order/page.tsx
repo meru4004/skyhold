@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 const plans = [
   { value: "basic", label: "Basic — €14 (12 hours)" },
@@ -22,8 +21,8 @@ const visaCountries = [
 ];
 
 export default function OrderPage() {
-  const router = useRouter();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     departure: "",
     destination: "",
@@ -41,8 +40,26 @@ export default function OrderPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit() {
-    router.push("/success?plan=" + form.plan + "&email=" + encodeURIComponent(form.email));
+  async function handleSubmit() {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Something went wrong. Please try again.");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   }
 
   const planDetails: Record<string, { name: string; price: string; delivery: string }> = {
@@ -69,7 +86,7 @@ export default function OrderPage() {
         </div>
 
         {/* Step indicators */}
-        <div className="flex items-center justify-center gap-0 max-w-sm mx-auto mt-8 px-6">
+        <div className="flex items-center justify-center max-w-sm mx-auto mt-8 px-6">
           {[1, 2, 3].map((s, i) => (
             <div key={s} className="flex items-center flex-1">
               <div className="flex flex-col items-center gap-1.5 flex-1">
@@ -91,7 +108,7 @@ export default function OrderPage() {
                 </span>
               </div>
               {i < 2 && (
-                <div className={`h-0.5 flex-1 mb-5 transition-all ${step > s + 0 ? "bg-green-400" : "bg-slate-200"}`} />
+                <div className={`h-0.5 flex-1 mb-5 transition-all ${step > s ? "bg-green-400" : "bg-slate-200"}`} />
               )}
             </div>
           ))}
@@ -105,8 +122,12 @@ export default function OrderPage() {
           {/* ── STEP 1: Travel Info ── */}
           {step === 1 && (
             <div>
-              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>Travel details</h2>
-              <p className="text-sm text-slate-400 mb-7">Enter your itinerary exactly as you want it on the reservation.</p>
+              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>
+                Travel details
+              </h2>
+              <p className="text-sm text-slate-400 mb-7">
+                Enter your itinerary exactly as you want it on the reservation.
+              </p>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
@@ -150,7 +171,7 @@ export default function OrderPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5 col-span-2">
-                  <label className="text-sm font-medium text-slate-700">Visa Country (applying for)</label>
+                  <label className="text-sm font-medium text-slate-700">Visa Country</label>
                   <select
                     value={form.visaCountry}
                     onChange={(e) => update("visaCountry", e.target.value)}
@@ -179,8 +200,12 @@ export default function OrderPage() {
           {/* ── STEP 2: Passenger Info ── */}
           {step === 2 && (
             <div>
-              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>Passenger information</h2>
-              <p className="text-sm text-slate-400 mb-7">Lead passenger details for the reservation.</p>
+              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>
+                Passenger information
+              </h2>
+              <p className="text-sm text-slate-400 mb-7">
+                Lead passenger details for the reservation.
+              </p>
 
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
@@ -266,8 +291,12 @@ export default function OrderPage() {
           {/* ── STEP 3: Review ── */}
           {step === 3 && (
             <div>
-              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>Review your order</h2>
-              <p className="text-sm text-slate-400 mb-7">Please check everything before confirming.</p>
+              <h2 className="text-2xl text-slate-900 mb-1" style={{ fontFamily: "var(--font-serif)" }}>
+                Review your order
+              </h2>
+              <p className="text-sm text-slate-400 mb-7">
+                Please check everything before confirming.
+              </p>
 
               <div className="border border-slate-200 rounded-xl overflow-hidden mb-5">
                 {[
@@ -305,7 +334,7 @@ export default function OrderPage() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
                 </svg>
-                Secure payment. Your card details are never stored.
+                Secure payment via Stripe. Your card details are never stored.
               </div>
 
               <div className="flex items-center justify-between">
@@ -317,12 +346,24 @@ export default function OrderPage() {
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl transition-colors"
+                  disabled={loading}
+                  className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-semibold rounded-xl transition-colors"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-                  </svg>
-                  Pay & Confirm
+                  {loading ? (
+                    <>
+                      <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                      </svg>
+                      Redirecting to payment…
+                    </>
+                  ) : (
+                    <>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                      </svg>
+                      Pay & Confirm
+                    </>
+                  )}
                 </button>
               </div>
             </div>
