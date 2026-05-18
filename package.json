@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@next/font": "^14.2.15",
     "@stripe/stripe-js": "^9.5.0",
     "@supabase/supabase-js": "^2.105.4",
     "class-variance-authority": "^0.7.1",
