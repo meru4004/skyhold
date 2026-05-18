@@ -19,15 +19,37 @@ export default function Footer() {
             <p className="text-sm leading-relaxed max-w-[200px]">
               Official flight reservations for visa applications. Trusted by 50,000+ travellers.
             </p>
+            <p className="text-sm mt-4">
+              ✉ <a href="mailto:support@skyhold.io" className="text-slate-500 hover:text-slate-200 no-underline transition-colors">
+                support@skyhold.io
+              </a>
+            </p>
           </div>
 
           {/* Product */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-300 mb-4">Product</h4>
             <ul className="flex flex-col gap-2 list-none">
-              <li><Link href="/" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">Home</Link></li>
-              <li><Link href="/pricing" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">Pricing</Link></li>
-              <li><Link href="/order" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">Book Now</Link></li>
+              <li>
+                <Link href="/" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/order" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Book Now
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  FAQ
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -35,9 +57,26 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-300 mb-4">Support</h4>
             <ul className="flex flex-col gap-2 list-none">
-              <li><Link href="/faq" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">FAQ</Link></li>
-              <li><Link href="/contact" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">Contact</Link></li>
-              <li><a className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline cursor-pointer">Live Chat</a></li>
+              <li>
+                <Link href="/contact" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:support@skyhold.io" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Email Support
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/440000000000" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  WhatsApp
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -45,18 +84,36 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-300 mb-4">Legal</h4>
             <ul className="flex flex-col gap-2 list-none">
-              <li><a className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline cursor-pointer">Terms of Service</a></li>
-              <li><a className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline cursor-pointer">Privacy Policy</a></li>
-              <li><a className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline cursor-pointer">Refund Policy</a></li>
+              <li>
+                <Link href="/terms" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/refund" className="text-sm text-slate-500 hover:text-slate-200 transition-colors no-underline">
+                  Refund Policy
+                </Link>
+              </li>
             </ul>
           </div>
+
         </div>
 
         {/* Bottom bar */}
         <div className="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs">© 2025 SkyHold. All rights reserved.</p>
-          <p className="text-xs">✉ <a href="mailto:support@skyhold.io" className="text-slate-500 hover:text-slate-200 no-underline">support@skyhold.io</a></p>
+          <div className="flex items-center gap-4 text-xs">
+            <Link href="/terms" className="text-slate-500 hover:text-slate-200 no-underline transition-colors">Terms</Link>
+            <Link href="/privacy" className="text-slate-500 hover:text-slate-200 no-underline transition-colors">Privacy</Link>
+            <Link href="/refund" className="text-slate-500 hover:text-slate-200 no-underline transition-colors">Refund</Link>
+          </div>
         </div>
+
       </div>
     </footer>
   );
