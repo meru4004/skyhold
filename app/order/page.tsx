@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import AirportInput from "../components/AirportInput";
 
 const plans = [
   { value: "basic", label: "Basic — €14 (12 hours)" },
@@ -130,26 +131,18 @@ export default function OrderPage() {
               </p>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-medium text-slate-700">Departure Airport</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. London (LHR)"
-                    value={form.departure}
-                    onChange={(e) => update("departure", e.target.value)}
-                    className="px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-800 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-medium text-slate-700">Destination Airport</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Paris (CDG)"
-                    value={form.destination}
-                    onChange={(e) => update("destination", e.target.value)}
-                    className="px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-800 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
-                  />
-                </div>
+                <AirportInput
+                  label="Departure Airport"
+                  placeholder="Search city or airport..."
+                  value={form.departure}
+                  onChange={(val) => update("departure", val)}
+                />
+                <AirportInput
+                  label="Destination Airport"
+                  placeholder="Search city or airport..."
+                  value={form.destination}
+                  onChange={(val) => update("destination", val)}
+                />
                 <div className="flex flex-col gap-1.5">
                   <label className="text-sm font-medium text-slate-700">Departure Date</label>
                   <input
